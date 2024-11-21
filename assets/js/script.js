@@ -58,21 +58,26 @@ overlay.addEventListener("click", testimonialsModalFunc);
 // custom select variables
 const select = document.querySelector("[data-select]");
 const selectItems = document.querySelectorAll("[data-select-item]");
-const selectValue = document.querySelector("[data-selecct-value]");
+const selectValue = document.querySelector("[data-select-value]");
 const filterBtn = document.querySelectorAll("[data-filter-btn]");
 
-select.addEventListener("click", function () { elementToggleFunc(this); });
-
-// add event in all select items
-for (let i = 0; i < selectItems.length; i++) {
-  selectItems[i].addEventListener("click", function () {
-
-    let selectedValue = this.innerText.toLowerCase();
-    selectValue.innerText = this.innerText;
-    elementToggleFunc(select);
-    filterFunc(selectedValue);
-
+if (select && selectItems.length > 0 && selectValue) {
+  // Toggle dropdown on click
+  select.addEventListener("click", function () {
+    elementToggleFunc(this);
   });
+
+  // Add event to all select items
+  selectItems.forEach((item) => {
+    item.addEventListener("click", function () {
+      let selectedValue = this.innerText.toLowerCase();
+      selectValue.innerText = this.innerText;
+      elementToggleFunc(select);
+      filterFunc(selectedValue); // Ensure filterFunc is defined
+    });
+  });
+} else {
+  console.error("Dropdown elements are missing in the DOM.");
 }
 
 // filter variables
@@ -140,20 +145,26 @@ for (let i = 0; i < formInputs.length; i++) {
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
 const pages = document.querySelectorAll("[data-page]");
 
-// add event to all nav link
-for (let i = 0; i < navigationLinks.length; i++) {
-  navigationLinks[i].addEventListener("click", function () {
+// Add event to all nav links
+navigationLinks.forEach((link) => {
+  link.addEventListener("click", function () {
+    const targetPage = this.innerHTML.trim().toLowerCase();
+    const matchedPage = document.querySelector(`[data-page="${targetPage}"]`);
 
-    for (let i = 0; i < pages.length; i++) {
-      if (this.innerHTML.toLowerCase() === pages[i].dataset.page) {
-        pages[i].classList.add("active");
-        navigationLinks[i].classList.add("active");
-        window.scrollTo(0, 0);
-      } else {
-        pages[i].classList.remove("active");
-        navigationLinks[i].classList.remove("active");
-      }
+    if (!matchedPage) {
+      console.error(`No page found for: ${targetPage}`);
+      return;
     }
 
+    // Deactivate all links and pages
+    navigationLinks.forEach((link) => link.classList.remove("active"));
+    pages.forEach((page) => page.classList.remove("active"));
+
+    // Activate the clicked link and corresponding page
+    this.classList.add("active");
+    matchedPage.classList.add("active");
+
+    // Scroll to top
+    window.scrollTo(0, 0);
   });
-}
+});
