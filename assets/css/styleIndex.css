@@ -166,7 +166,9 @@ background-size: cover;
 background-color: var(--smoky-black);
 }
 
-
+.imges{
+  flex-wrap: wrap;
+}
 
 
 
