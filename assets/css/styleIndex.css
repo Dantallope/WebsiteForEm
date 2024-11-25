@@ -64,7 +64,7 @@
   --jet: hsl(0, 0%, 22%);
   --onyx: hsl(240, 1%, 17%);
   --eerie-black-1: hsl(43, 90%, 24%);
-  --eerie-black-2:hsl(126, 51%, 15%);
+  --eerie-black-2:hsla(126, 51%, 15%, 0.85);
   --smoky-black: hsl(125, 94%, 7%);
   --white-1: hsl(0, 0%, 100%);
   --white-2: hsl(0, 0%, 98%);
@@ -160,7 +160,11 @@ input, textarea {
 
 html { font-family: var(--ff-poppins); }
 
-body { background: var(--smoky-black); }
+body { background-image: url(../images/home.jpg); 
+background-repeat: no-repeat;
+background-size: cover;
+background-color: var(--smoky-black);
+}
 
 
 
